@@ -11,7 +11,7 @@ class UserController extends GetxController {
   Future<void> fetchUserData(int userId) async {
     try {
       final response = await http
-          .get(Uri.parse('http://192.168.1.204:5000/api/get_user/$userId'));
+          .get(Uri.parse('http://18.143.178.80/api/get_user/$userId'));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         userData.value = data;

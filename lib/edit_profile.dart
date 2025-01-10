@@ -29,10 +29,10 @@ class _EditProfileState extends State<EditProfile> {
         filename = path.basename(pickedFile.path);
       });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Camera and storage permissions are required')),
-      );
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   const SnackBar(
+      //       content: Text('Camera and storage permissions are required')),
+      // );
     }
   }
 

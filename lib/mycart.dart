@@ -1,3 +1,4 @@
+import 'package:finalflutter/checkout.dart';
 import 'package:finalflutter/controllers/productcontroller.dart';
 import 'package:finalflutter/home.dart';
 import 'package:flutter/cupertino.dart';
@@ -209,6 +210,190 @@ class _MyCartState extends State<MyCart> {
                                                   widget.userId,
                                                   newQuantity,
                                                 );
+                                              } else {
+                                                showModalBottomSheet<void>(
+                                                  backgroundColor: Colors.white,
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return SizedBox(
+                                                      height: 300,
+                                                      width: double.infinity,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(20.0),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: <Widget>[
+                                                            Text(
+                                                                'Remove from Cart?',
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize: 22,
+                                                                )),
+                                                            SizedBox(
+                                                                height: 30),
+                                                            Row(
+                                                              children: [
+                                                                // Product Image
+                                                                Container(
+                                                                  width: 90,
+                                                                  height: 90,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                  ),
+                                                                  child:
+                                                                      ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            10),
+                                                                    child:
+                                                                        Image(
+                                                                      image: AssetImage(
+                                                                          'assets/products/${cartItem['image']}'),
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                    width: 10),
+                                                                Expanded(
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    children: [
+                                                                      // Product Name
+                                                                      Text(
+                                                                        cartItem[
+                                                                            'product_name'],
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontSize:
+                                                                              15,
+                                                                          fontWeight:
+                                                                              FontWeight.w400,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              5),
+                                                                      // Product Size
+                                                                      Text(
+                                                                        'Size: ${cartItem['size']}',
+                                                                        style:
+                                                                            TextStyle(
+                                                                          color: Colors
+                                                                              .grey
+                                                                              .shade500,
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w400,
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                          height:
+                                                                              5),
+                                                                      Row(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceBetween,
+                                                                        children: [
+                                                                          Text(
+                                                                            cartItem['price'],
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.black,
+                                                                              fontSize: 15,
+                                                                              fontWeight: FontWeight.w400,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 30,
+                                                            ),
+                                                            Row(
+                                                              children: [
+                                                                Expanded(
+                                                                  child:
+                                                                      Container(
+                                                                    height: 55,
+                                                                    child: ElevatedButton(
+                                                                        style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFECECEC)),
+                                                                        onPressed: () {
+                                                                          Get.back();
+                                                                        },
+                                                                        child: Text(
+                                                                          'Cancel',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Colors.brown,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                            fontSize:
+                                                                                18,
+                                                                          ),
+                                                                        )),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Expanded(
+                                                                  child:
+                                                                      Container(
+                                                                    height: 55,
+                                                                    child: ElevatedButton(
+                                                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
+                                                                        onPressed: () {
+                                                                          productController.deleteFromCart(
+                                                                              cartItem['product_id'],
+                                                                              cartItem['size'],
+                                                                              cartItem['user_id']);
+                                                                          Get.back();
+                                                                        },
+                                                                        child: Text(
+                                                                          'Yes, Remove',
+                                                                          style:
+                                                                              TextStyle(
+                                                                            color:
+                                                                                Colors.white,
+                                                                            fontWeight:
+                                                                                FontWeight.w400,
+                                                                            fontSize:
+                                                                                18,
+                                                                          ),
+                                                                        )),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                );
                                               }
                                             },
                                             child: Container(
@@ -266,6 +451,7 @@ class _MyCartState extends State<MyCart> {
                                           IconButton(
                                               onPressed: () {
                                                 showModalBottomSheet<void>(
+                                                  backgroundColor: Colors.white,
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
@@ -643,7 +829,9 @@ class _MyCartState extends State<MyCart> {
                                         fontSize: 18,
                                       ),
                                     ),
-                                    onPressed: () => Navigator.pop(context),
+                                    onPressed: () {
+                                      Get.to(() => CheckOut());
+                                    },
                                   ),
                                 ),
                               ],

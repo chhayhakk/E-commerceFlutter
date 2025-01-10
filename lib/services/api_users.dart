@@ -8,7 +8,7 @@ class ApiUser {
   Future<List<Users>> fetchUsers() async {
     try {
       final response =
-          await http.get(Uri.parse('http://192.168.1.204:5000/api/users'));
+          await http.get(Uri.parse('http://18.143.178.80/api/users'));
       if (response.statusCode == 200) {
         final List userJson = json.decode(response.body);
         print(userJson);
@@ -24,7 +24,7 @@ class ApiUser {
   Future<int> addUser(Map<String, dynamic> userData) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.204:5000/api/users'),
+        Uri.parse('http://18.143.178.80/api/users'),
         body: userData,
       );
 
@@ -48,10 +48,10 @@ class ApiUser {
   Future<void> updateUser(int userId, Map<String, dynamic> userData) async {
     try {
       final response = await http.put(
-        Uri.parse('http://192.168.1.204:5000/api/complete_profile/$userId'),
+        Uri.parse('http://18.143.178.80/api/complete_profile/$userId'),
         body: json.encode(userData),
         headers: {
-          'Content-Type': 'application/json', // Ensure the API receives JSON
+          'Content-Type': 'application/json',
         },
       );
       if (response.headers['content-type']?.contains('application/json') ==

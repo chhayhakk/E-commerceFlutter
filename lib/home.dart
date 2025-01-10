@@ -459,6 +459,7 @@ class _HomeState extends State<Home> {
                     itemCount: productController.products.length,
                     itemBuilder: (context, index) {
                       final product = productController.products[index];
+                      bool isFavorite = product['is_favorite'];
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -468,8 +469,8 @@ class _HomeState extends State<Home> {
                               final productController =
                                   Get.find<ProductController>();
                               productController.productDetails.value = null;
-                              await productController
-                                  .fetchProductById(product['id']);
+                              await productController.fetchProductById(
+                                  product['id'], widget.userData['id']);
 
                               Get.to(() =>
                                   ProductDetail(productId: product['id']));
@@ -502,10 +503,25 @@ class _HomeState extends State<Home> {
                                     ),
                                     child: Center(
                                         child: IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        if (isFavorite) {
+                                          productController.removeFromFavorites(
+                                              product['id'],
+                                              widget.userData['id']);
+                                        } else {
+                                          productController.addToFavorites(
+                                              product['id'],
+                                              widget.userData['id']);
+                                        }
+                                      },
                                       icon: Icon(
-                                        Icons.favorite_outline,
+                                        isFavorite
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
                                         size: 20,
+                                        color: isFavorite
+                                            ? Colors.red
+                                            : Colors.grey,
                                       ),
                                       padding: EdgeInsets.zero,
                                     ))),
@@ -570,6 +586,6 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    productController.fetchProducts();
+    productController.fetchProducts(widget.userData['id']);
   }
 }

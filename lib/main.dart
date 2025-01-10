@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
           } else if (snapshot.hasData && snapshot.data != 0) {
             return NavigationMenu(userId: snapshot.data!);
           } else {
-            return Signin();
+            return WelcomeScreen();
           }
         },
       ),

@@ -3,8 +3,11 @@ import 'dart:convert';
 import 'package:finalflutter/controllers/productcontroller.dart';
 import 'package:finalflutter/home.dart';
 import 'package:finalflutter/mycart.dart';
+import 'package:finalflutter/myorder.dart';
+import 'package:finalflutter/order_detail.dart';
 import 'package:finalflutter/profile.dart';
 import 'package:finalflutter/controllers/usercontroller.dart';
+import 'package:finalflutter/shop.dart';
 import 'package:finalflutter/signin.dart';
 import 'package:finalflutter/signup.dart';
 import 'package:finalflutter/welcome_screen.dart';
@@ -36,7 +39,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   void initState() {
     super.initState();
     userController.fetchUserData(widget.userId);
-    productController.fetchProducts();
+    productController.fetchProducts(widget.userId);
   }
 
   @override
@@ -58,10 +61,10 @@ class _NavigationMenuState extends State<NavigationMenu> {
                   label: 'Home'),
               BottomNavigationBarItem(
                   icon: Icon(
-                    Icons.favorite,
+                    Icons.list_alt,
                     size: 22,
                   ),
-                  label: 'Favorite'),
+                  label: 'My Order'),
               BottomNavigationBarItem(
                   icon: FaIcon(
                     FontAwesomeIcons.bagShopping,
@@ -85,8 +88,8 @@ class _NavigationMenuState extends State<NavigationMenu> {
                 index: _bottomSelectedIndex,
                 children: [
                   Home(userData: userController.userData.value!),
-                  const WelcomeScreen(),
-                  const WelcomeScreen(),
+                  const MyOrder(),
+                  const Shop(),
                   Profile(userData: userController.userData.value!),
                 ],
               )));

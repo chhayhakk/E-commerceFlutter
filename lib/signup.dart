@@ -1,5 +1,4 @@
 import 'package:finalflutter/complete_profile.dart';
-import 'package:finalflutter/helpers/db_helper.dart';
 import 'package:finalflutter/models/users.dart';
 import 'package:finalflutter/services/api_users.dart';
 import 'package:finalflutter/signin.dart';
@@ -13,6 +12,8 @@ class Signup extends StatefulWidget {
 }
 
 bool _obsecureTextValue = true;
+bool _obsecureTextValue_forPassword = true;
+IconData _openCloseEyeIcon_forPassword = Icons.remove_red_eye_outlined;
 IconData _openCloseEyeIcon = Icons.remove_red_eye_outlined;
 GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final TextEditingController emailController = TextEditingController();
@@ -170,18 +171,20 @@ class _SignupState extends State<Signup> {
                         height: 10,
                       ),
                       TextFormField(
-                        obscureText: _obsecureTextValue,
+                        obscureText: _obsecureTextValue_forPassword,
                         obscuringCharacter: '*',
                         decoration: InputDecoration(
                           suffixIcon: IconButton(
                               onPressed: () {
-                                _obsecureTextValue = !_obsecureTextValue;
-                                _openCloseEyeIcon = _obsecureTextValue
-                                    ? Icons.remove_red_eye_outlined
-                                    : Icons.remove_red_eye;
+                                _obsecureTextValue_forPassword =
+                                    !_obsecureTextValue_forPassword;
+                                _openCloseEyeIcon_forPassword =
+                                    _obsecureTextValue_forPassword
+                                        ? Icons.remove_red_eye_outlined
+                                        : Icons.remove_red_eye;
                                 setState(() {});
                               },
-                              icon: Icon(_openCloseEyeIcon)),
+                              icon: Icon(_openCloseEyeIcon_forPassword)),
                           label: const Text(
                             'Confirm your password',
                             style: TextStyle(color: Colors.grey),

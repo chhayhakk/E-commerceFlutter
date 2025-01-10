@@ -1,5 +1,8 @@
 import 'package:finalflutter/edit_profile.dart';
+import 'package:finalflutter/myorder.dart';
 import 'package:finalflutter/payment_method.dart';
+import 'package:finalflutter/privacy.dart';
+import 'package:finalflutter/setting.dart';
 import 'package:finalflutter/signin.dart';
 import 'package:finalflutter/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -53,27 +56,108 @@ final List<Map<String, dynamic>> _menuItems = [
 
 class _ProfileState extends State<Profile> {
   final UserController userController = Get.find<UserController>();
-  Future<void> _logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('userId');
-    Get.to(() => Signin());
+  // Future<void> _logout() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.remove('userId');
+  //   Get.to(() => Signin());
+  // }
+  Future<void> _logout(BuildContext context) async {
+    showModalBottomSheet<void>(
+      backgroundColor: Colors.white,
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox(
+          height: 250,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Are you sure you want to log out?',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 22,
+                  ),
+                ),
+                SizedBox(height: 30),
+                // Options
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        height: 55,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFFECECEC),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context); // Close the bottom sheet
+                          },
+                          child: Text(
+                            'Cancel',
+                            style: TextStyle(
+                              color: Colors.brown,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: Container(
+                        height: 55,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.brown,
+                          ),
+                          onPressed: () async {
+                            Navigator.pop(
+                                context); // Close the bottom sheet first
+                            // After closing the sheet, log out and navigate to the Signin screen
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.remove('userId');
+                            Get.offAll(
+                                () => Signin()); // Navigate to Signin screen
+                          },
+                          child: Text(
+                            'Yes, Logout',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, Widget Function()> navigationMap = {
+    final Map<String, dynamic> navigationMap = {
       'Your profile': () => EditProfile(userData: widget.userData),
       'Payment Methods': () => PaymentMethod(),
-      'My Orders': () => WelcomeScreen(),
-      'Settings': () => WelcomeScreen(),
-      'Help Center': () => WelcomeScreen(),
-      'Privacy Policy': () => WelcomeScreen(),
-      'Invite Friends': () => WelcomeScreen(),
-      'Log out': () {
-        _logout();
-        return SizedBox.shrink();
-      },
+      'My Orders': () => MyOrder(),
+      'Settings': () => Setting(),
+      'Help Center': () => (),
+      'Privacy Policy': () => Privacy(),
+      'Invite Friends': () => (),
+      'Log out': _logout,
     };
+
     String name = widget.userData['name'];
     String imagePath = widget.userData['profile'];
     return Scaffold(
@@ -153,25 +237,34 @@ class _ProfileState extends State<Profile> {
             ),
             SizedBox(height: 20),
             Expanded(
-                child: ListView.separated(
-                    itemBuilder: (context, index) {
-                      return _buildListTile(
-                          _menuItems[index]['icon'], _menuItems[index]['title'],
-                          () {
-                        final String title = _menuItems[index]['title'];
-                        final screenBuilder = navigationMap[title];
-                        if (screenBuilder != null) {
-                          Get.to(screenBuilder);
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return _buildListTile(
+                    _menuItems[index]['icon'],
+                    _menuItems[index]['title'],
+                    () {
+                      final String title = _menuItems[index]['title'];
+                      final dynamic screenBuilder = navigationMap[title];
+
+                      if (screenBuilder != null) {
+                        if (title == 'Log out' && screenBuilder is Function) {
+                          screenBuilder(context);
+                        } else if (screenBuilder is Function) {
+                          Get.to(screenBuilder());
                         }
-                      });
+                      }
                     },
-                    separatorBuilder: (context, index) => Divider(
-                          color: Colors.grey.shade300,
-                          thickness: 1,
-                          indent: 20,
-                          endIndent: 20,
-                        ),
-                    itemCount: _menuItems.length))
+                  );
+                },
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey.shade300,
+                  thickness: 1,
+                  indent: 20,
+                  endIndent: 20,
+                ),
+                itemCount: _menuItems.length,
+              ),
+            )
           ],
         ),
       ),

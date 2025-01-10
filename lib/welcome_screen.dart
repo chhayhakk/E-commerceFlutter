@@ -1,5 +1,7 @@
 import 'package:finalflutter/signin.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -157,13 +159,18 @@ class WelcomeScreen extends StatelessWidget {
                         fontWeight: FontWeight.normal,
                         fontSize: 16),
                   ),
-                  Text(
-                    ' Sign In',
-                    style: TextStyle(
-                      color: Color(0xFF704F38),
-                      fontWeight: FontWeight.normal,
-                      fontSize: 16,
-                      decoration: TextDecoration.underline,
+                  InkWell(
+                    onTap: () {
+                      Get.to(() => Signin());
+                    },
+                    child: Text(
+                      ' Sign In',
+                      style: TextStyle(
+                        color: Color(0xFF704F38),
+                        fontWeight: FontWeight.normal,
+                        fontSize: 16,
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   )
                 ],
