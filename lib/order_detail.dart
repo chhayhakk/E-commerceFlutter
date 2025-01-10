@@ -105,8 +105,9 @@ class _OrderDetailState extends State<OrderDetail> {
                       ),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child:
-                            Image(image: AssetImage('assets/products/D6.jpg')),
+                        child: Image(
+                            image: AssetImage(
+                                'assets/products/${orderData['items'][0]['image']}')),
                       ),
                     ),
                     Expanded(
