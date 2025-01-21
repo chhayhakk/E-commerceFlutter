@@ -478,7 +478,8 @@ class _HomeState extends State<Home> {
                             child: Stack(children: [
                               Container(
                                   width: double.infinity,
-                                  height: 160,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.15,
                                   decoration: BoxDecoration(
                                     color: Color(0xFFF0F0F0),
                                     borderRadius: BorderRadius.circular(10),
